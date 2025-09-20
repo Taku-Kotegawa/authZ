@@ -32,6 +32,8 @@ spring:
     jdbc:
       table-name: T_SPRING_SESSION # テーブル名を大文字に
       initialize-schema: never # schema.sqlで作成するため
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 # 認可サーバー設定
 # issuer-uriは、リバースプロキシやロードバランサーの外部公開URLに合わせる必要がある
