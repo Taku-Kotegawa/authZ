@@ -14,11 +14,7 @@ spring:
     username: authz_user
     password: securepassword
     driver-class-name: org.postgresql.Driver
-  # データベーステーブルを自動で初期化する
-  # 初回起動時は 'always' に設定し、一度初期化が完了した後は 'never' に変更してください。
-  sql:
-    init:
-      mode: never
+  
   jpa:
     hibernate:
       ddl-auto: none # Spring JDBC を使うため none に設定
@@ -32,6 +28,8 @@ spring:
     jdbc:
       table-name: T_SPRING_SESSION # テーブル名を大文字に
       initialize-schema: never # schema.sqlで作成するため
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 # 認可サーバー設定
 # issuer-uriは、リバースプロキシやロードバランサーの外部公開URLに合わせる必要がある
