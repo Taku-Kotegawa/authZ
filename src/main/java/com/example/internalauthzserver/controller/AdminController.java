@@ -25,15 +25,16 @@ public class AdminController {
 
     @GetMapping("/users/{username}")
     public ResponseEntity<UserResponse> getUser(@PathVariable String username) {
-        if (!userDetailsManager.userExists(username)) {
+        try {
+            UserDetails user = userDetailsManager.loadUserByUsername(username);
+            List<String> roles = user.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            UserResponse response = new UserResponse(user.getUsername(), user.isEnabled(), roles);
+            return ResponseEntity.ok(response);
+        } catch (org.springframework.security.core.userdetails.UsernameNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-        UserDetails user = userDetailsManager.loadUserByUsername(username);
-        List<String> roles = user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        UserResponse response = new UserResponse(user.getUsername(), user.isEnabled(), roles);
-        return ResponseEntity.ok(response);
     }
 
     // POST, PUT, DELETE の実装は省略
