@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  authz-server:
+    build: .
+    container_name: authz-server-app
+    ports:
+      - "9000:9000"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/authz_db
+      - SPRING_DATASOURCE_USERNAME=authz_user
+      - SPRING_DATASOURCE_PASSWORD=securepassword
+      - ISSUER_URI=http://localhost:9000
+    networks:
+      - authz-net
+
+  postgresql:
+    image: postgres:16-alpine
+    container_name: authz-postgres
+    # コンテナ外部にポートを公開する必要がなければ ports は削除
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=authz_db
+      - POSTGRES_USER=authz_user
+      - POSTGRES_PASSWORD=securepassword
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authz_user -d authz_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - authz-net
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  authz-net:
+    driver: bridge

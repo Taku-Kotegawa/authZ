@@ -1,0 +1,65 @@
+server:
+  port: 9000
+  # 本番環境では必ずSSL/TLSを有効化する
+  # ssl:
+  #   key-store: classpath:keystore.p12
+  #   key-store-password: password
+  #   key-alias: authz-server
+
+spring:
+  application:
+    name: internal-authz-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authz_db
+    username: authz_user
+    password: securepassword
+    driver-class-name: org.postgresql.Driver
+  # データベーステーブルを自動で初期化する
+  # 初回起動時は 'always' に設定し、一度初期化が完了した後は 'never' に変更してください。
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none # Spring JDBC を使うため none に設定
+  security:
+    user:
+      # Spring Boot のデフォルトユーザーは使用しない
+      name: ""
+      password: ""
+  session:
+    store-type: jdbc
+    jdbc:
+      table-name: T_SPRING_SESSION # テーブル名を大文字に
+      initialize-schema: never # schema.sqlで作成するため
+
+# 認可サーバー設定
+# issuer-uriは、リバースプロキシやロードバランサーの外部公開URLに合わせる必要がある
+# 例: https://auth.example.com
+# 開発中は localhost でも可
+issuer-uri: http://localhost:9000
+
+# ログ設定
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.example.internalauthzserver: DEBUG
+  # セキュリティイベント用のログファイルを分離
+  file:
+    name: logs/app.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: logs/app-%d{yyyy-MM-dd}.%i.log
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 100MB
+
+# Actuator エンドポイント設定
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+  endpoint:
+    health:
+      show-details: when_authorized

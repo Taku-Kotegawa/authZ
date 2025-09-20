@@ -1,0 +1,7 @@
+com/example/internalauthzserver/controller/ResourceController.class
+com/example/internalauthzserver/InternalAuthzServerApplication.class
+com/example/internalauthzserver/dto/LoginResponse.class
+com/example/internalauthzserver/dto/LoginRequest.class
+com/example/internalauthzserver/dto/UserResponse.class
+com/example/internalauthzserver/config/SecurityConfig.class
+com/example/internalauthzserver/controller/AdminController.class

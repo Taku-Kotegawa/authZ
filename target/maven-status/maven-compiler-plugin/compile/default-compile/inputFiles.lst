@@ -1,0 +1,7 @@
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/InternalAuthzServerApplication.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/config/SecurityConfig.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/controller/AdminController.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/controller/ResourceController.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/dto/LoginRequest.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/dto/LoginResponse.java
+/home/taku/IdeaProjects/authZ/src/main/java/com/example/internalauthzserver/dto/UserResponse.java
