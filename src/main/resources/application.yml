@@ -14,11 +14,7 @@ spring:
     username: authz_user
     password: securepassword
     driver-class-name: org.postgresql.Driver
-  # データベーステーブルを自動で初期化する
-  # 初回起動時は 'always' に設定し、一度初期化が完了した後は 'never' に変更してください。
-  sql:
-    init:
-      mode: never
+  
   jpa:
     hibernate:
       ddl-auto: none # Spring JDBC を使うため none に設定
